@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Điều bất ngờ 🌸</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,700&family=Quicksand:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: radial-gradient(circle at center, #fff5f7 0%, #ffe4eb 50%, #fbcfe8 100%);
+            font-family: 'Quicksand', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .gift-container {
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .gift-box {
+            font-size: 6rem;
+            cursor: pointer;
+            filter: drop-shadow(0 10px 20px rgba(219, 39, 119, 0.3));
+            transition: transform 0.4s ease;
+            animation: bounce-slow 3s infinite ease-in-out;
+        }
+
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .gift-box:hover {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .card-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 30px 60px -12px rgba(219, 39, 119, 0.3);
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 20px;
+            z-index: 100;
+            animation: burst 2s ease-out forwards;
+        }
+
+        @keyframes burst {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.8) translateY(-150px) rotate(360deg); opacity: 0; }
+        }
+
+        .shake {
+            animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
+        }
+    </style>
+</head>
+<body class="p-4">
+
+    <div id="cover" class="gift-container flex flex-col items-center">
+        <div class="gift-box" onclick="openGift()">🎁</div>
+        <p class="text-pink-400 mt-6 animate-pulse font-semibold tracking-widest uppercase text-sm">Chạm để mở quà...</p>
+    </div>
+
+    <div id="main-content" class="hidden opacity-0 scale-90 transition-all duration-1000 w-full max-w-sm card-glass p-8 rounded-[2.5rem] text-center">
+        <div class="text-6xl mb-6">🎂</div>
+        <h1 class="text-3xl font-serif text-pink-950 mb-2 italic">Happy Birthday!</h1>
+        <p class="text-pink-400 mb-8 font-medium text-xs tracking-[0.25em] uppercase">Một ngày rực rỡ</p>
+        
+        <div class="p-6 rounded-3xl bg-pink-50/50 border border-pink-100 text-pink-900 leading-relaxed italic mb-8 shadow-inner">
+            "Chúc mừng sinh nhật. Chúc Trân tuổi mới luôn vui vẻ, khỏe mạnh, gặp nhiều may mắn và từng bước đạt được những điều bạn mong muốn. Chúc Trân có một ngày sinh nhật thật vui và một năm thật rực rỡ! 🎉🍀"
+        </div>
+
+        <button onclick="triggerJoy()" class="w-full bg-pink-500 text-white py-4 rounded-2xl hover:bg-pink-600 transition-all shadow-lg shadow-pink-200 font-semibold active:scale-95 active:bg-pink-700">
+            Nhận thêm niềm vui ✨
+        </button>
+    </div>
+
+    <script>
+        function openGift() {
+            const cover = document.getElementById('cover');
+            const main = document.getElementById('main-content');
+            
+            // Hiệu ứng "nảy" trước khi mở
+            cover.style.transform = 'scale(0.5) translateY(50px)';
+            cover.style.opacity = '0';
+            
+            setTimeout(() => {
+                cover.classList.add('hidden');
+                main.classList.remove('hidden');
+                // Force layout reflow
+                void main.offsetWidth; 
+                main.style.opacity = '1';
+                main.style.transform = 'scale(1)';
+                
+                // Trigger niềm vui ngay khi mở
+                triggerJoy();
+            }, 600);
+        }
+
+        function triggerJoy() {
+            // Rung màn hình
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 600);
+
+            // Tạo pháo hoa toàn màn hình
+            const icons = ['🌸', '💖', '✨', '🎂', '🎊', '🎀', '⭐', '🎈', '❤️', '💕'];
+            
+            for(let i=0; i<70; i++) {
+                const s = document.createElement('div');
+                s.className = 'particle';
+                s.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                
+                // Vị trí ngẫu nhiên phủ toàn màn hình
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.top = Math.random() * 100 + 'vh';
+                
+                // Thời gian bay và delay ngẫu nhiên
+                s.style.animationDuration = (Math.random() * 1.5 + 1) + 's';
+                s.style.animationDelay = (Math.random() * 0.5) + 's';
+                
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 2500);
+            }
+        }
+    </script>
+</body>
+</html>
